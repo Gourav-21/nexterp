@@ -7,11 +7,14 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FormEvent, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 
 export default function Index() {
   const [login, setLogin] = useState(true)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [value, setValue] = useState("")
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("student");
 
@@ -124,6 +127,14 @@ export default function Index() {
             <form onSubmit={signIn}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="school code">School code</Label>
+                  </div>
+                  <div className="flex items-center ">
+                    <OTP value={value} setValue={setValue} />
+                  </div>
+                </div>
+                <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -137,7 +148,7 @@ export default function Index() {
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
-                  <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" required />
+                  <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" required minLength={6}/>
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Loading..." : "Sign up"}
@@ -156,6 +167,37 @@ export default function Index() {
           </div>
         )}
       </div>
+    </div>
+  )
+}
+
+
+function OTP({ value, setValue }: { value: string; setValue: (value: string) => void }) {
+
+  return (
+    <div className="space-y-1 flex items-center justify-center w-full">
+      <InputOTP
+        maxLength={8}
+        value={value}
+        pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+        onChange={(value) => setValue(value)}
+        required
+        minLength={8}
+      >
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+          <InputOTPSlot index={6} />
+          <InputOTPSlot index={7} />
+        </InputOTPGroup>
+      </InputOTP>
     </div>
   )
 }
