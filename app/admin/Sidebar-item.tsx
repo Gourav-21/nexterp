@@ -4,23 +4,35 @@ import {
     AlertCircle,
     Archive,
     ArchiveX,
+    BadgeHelp,
+    BookMarked,
+    BookUser,
     File,
+    GraduationCap,
     Inbox,
+    LayoutDashboard,
     MessagesSquare,
+    Presentation,
     Send,
     ShoppingCart,
+    SquareUserRound,
     Trash2,
     Triangle,
+    UserRoundCheck,
     Users2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { usePathname, useSelectedLayoutSegment } from "next/navigation"
 
 interface MailProps {
     isCollapsed?: boolean
 }
 
-export default function Sidebar({ isCollapsed  }: MailProps) {
+export default function SidebarItem({ isCollapsed }: MailProps) {
+    const pathname = usePathname()
+    console.log(pathname)
+
     return (
         <>
             <div className={cn(
@@ -32,87 +44,92 @@ export default function Sidebar({ isCollapsed  }: MailProps) {
                         <Triangle className="size-5 fill-foreground" />
                     </Button>
                 </div>
-                {isCollapsed? "":
-                <div className="flex-1">
-                 Admin 
-                </div>
+                {isCollapsed ? "" :
+                    <div className="flex-1">
+                        Admin
+                    </div>
                 }
             </div>
             <Separator />
-            <Nav
-                isCollapsed={isCollapsed? true : false}
+            <Nav 
+                segment={pathname}
+                isCollapsed={isCollapsed ? true : false}
                 links={[
                     {
-                        title: "Inbox",
-                        label: "128",
-                        icon: Inbox,
-                        variant: "default",
-                    },
-                    {
-                        title: "Drafts",
-                        label: "9",
-                        icon: File,
-                        variant: "ghost",
-                    },
-                    {
-                        title: "Sent",
+                        title: "dashboard",
                         label: "",
-                        icon: Send,
-                        variant: "ghost",
+                        icon: LayoutDashboard,
+                        href: "/admin",
                     },
                     {
-                        title: "Junk",
+                        title: "Students",
+                        label: "972",
+                        icon: GraduationCap,
+                        href: "/admin/students",
+                    },
+                    {
+                        title: "Teachers",
+                        label: "972",
+                        icon: Users2,
+                        href: "/admin/teachers",
+                    },
+                    {
+                        title: "Subjects",
+                        label: "",
+                        icon: BookMarked,
+                        href: "/admin/subjects",
+                    },
+                    {
+                        title: "Class",
                         label: "23",
-                        icon: ArchiveX,
-                        variant: "ghost",
+                        icon: Presentation,
+                        href: "/admin/class",
+                        
                     },
                     {
-                        title: "Trash",
+                        title: "Attendance",
                         label: "",
-                        icon: Trash2,
-                        variant: "ghost",
-                    },
-                    {
-                        title: "Archive",
-                        label: "",
-                        icon: Archive,
-                        variant: "ghost",
+                        icon: UserRoundCheck ,
+                        href: "/admin/attendance",
                     },
                 ]}
             />
             <Separator />
             <Nav
-                isCollapsed={isCollapsed? true : false}
+                segment={pathname}
+                isCollapsed={isCollapsed ? true : false}
                 links={[
                     {
-                        title: "Social",
-                        label: "972",
-                        icon: Users2,
-                        variant: "ghost",
+                        title: "Notice",
+                        label: "9",
+                        icon: File,
                     },
                     {
                         title: "Updates",
                         label: "342",
                         icon: AlertCircle,
-                        variant: "ghost",
                     },
                     {
-                        title: "Forums",
+                        title: "chat",
                         label: "128",
                         icon: MessagesSquare,
-                        variant: "ghost",
+                    },
+                ]}
+            />
+            <Separator />
+            <Nav
+                segment={pathname}
+                isCollapsed={isCollapsed ? true : false}
+                links={[
+                    {
+                        title: "Help",
+                        label: "342",
+                        icon: BadgeHelp,
                     },
                     {
-                        title: "Shopping",
-                        label: "8",
-                        icon: ShoppingCart,
-                        variant: "ghost",
-                    },
-                    {
-                        title: "Promotions",
-                        label: "21",
-                        icon: Archive,
-                        variant: "ghost",
+                        title: "Account",
+                        label: "128",
+                        icon: SquareUserRound,
                     },
                 ]}
             />

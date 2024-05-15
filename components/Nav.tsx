@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 
@@ -9,19 +8,21 @@ import { buttonVariants } from "@/components/ui/button"
 
 interface NavProps {
   isCollapsed: boolean
+  className?: string
+  segment: string
   links: {
     title: string
     label?: string
     icon: LucideIcon
-    variant: "default" | "ghost"
+    href?: string
   }[]
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function Nav({ links, isCollapsed, className, segment }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}
-      className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+      className= {cn("group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2",className)}
     >
       <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
         {links.map((link, index) =>
@@ -29,11 +30,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href={`${link.href}`}
                   className={cn(
-                    buttonVariants({ variant: link.variant, size: "icon" }),
+                    buttonVariants({ variant: link.href == segment? "default" : "ghost", size: "icon" }),
                     "h-9 w-9",
-                    link.variant === "default" &&
+                    link.href == segment &&
                       "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                   )}
                 >
@@ -53,10 +54,10 @@ export function Nav({ links, isCollapsed }: NavProps) {
           ) : (
             <Link
               key={index}
-              href="#"
+              href={`${link.href}`}
               className={cn(
-                buttonVariants({ variant: link.variant, size: "sm" }),
-                link.variant === "default" &&
+                buttonVariants({ variant: link.href == segment? "default" : "ghost" }),
+                link.href == segment &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                 "justify-start"
               )}
@@ -67,7 +68,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <span
                   className={cn(
                     "ml-auto",
-                    link.variant === "default" &&
+                    link.href == segment &&
                       "text-background dark:text-white"
                   )}
                 >
