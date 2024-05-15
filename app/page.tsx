@@ -9,6 +9,7 @@ import { FormEvent, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
+import { useRouter } from "next/navigation"
 
 export default function Index() {
   const [login, setLogin] = useState(true)
@@ -17,6 +18,8 @@ export default function Index() {
   const [value, setValue] = useState("")
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("student");
+
+  const router = useRouter()
 
   async function signIn(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -38,6 +41,7 @@ export default function Index() {
       setIsLoading(false);
     } else {
       console.log(data)
+      router.push(`/${role}`)
       setIsLoading(false);
     }
   }
@@ -55,6 +59,7 @@ export default function Index() {
       setIsLoading(false);
     } else {
       console.log(data)
+      router.push(`/${data.user?.user_metadata.role}`)
       setIsLoading(false);
     }
   }
