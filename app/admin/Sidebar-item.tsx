@@ -1,29 +1,9 @@
 import { Separator } from "@/components/ui/separator"
 import { Nav } from "../../components/Nav"
-import {
-    AlertCircle,
-    Archive,
-    ArchiveX,
-    BadgeHelp,
-    BookMarked,
-    BookUser,
-    File,
-    GraduationCap,
-    Inbox,
-    LayoutDashboard,
-    MessagesSquare,
-    Presentation,
-    Send,
-    ShoppingCart,
-    SquareUserRound,
-    Trash2,
-    Triangle,
-    UserRoundCheck,
-    Users2,
-} from "lucide-react"
+import { AlertCircle, BadgeHelp, BookMarked, File, GraduationCap, LayoutDashboard, MessagesSquare, Presentation, SquareUserRound, Triangle, UserRoundCheck, Users2, } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { usePathname, useSelectedLayoutSegment } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 interface MailProps {
     isCollapsed?: boolean
@@ -31,10 +11,8 @@ interface MailProps {
 
 export default function SidebarItem({ isCollapsed }: MailProps) {
     const pathname = usePathname()
-    console.log(pathname)
-
     return (
-        <>
+        <div className="h-full flex flex-col">
             <div className={cn(
                 "flex h-[52px] items-center justify-center",
                 isCollapsed ? "h-[52px]" : "px-2"
@@ -51,7 +29,7 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                 }
             </div>
             <Separator />
-            <Nav 
+            <Nav
                 segment={pathname}
                 isCollapsed={isCollapsed ? true : false}
                 links={[
@@ -84,12 +62,12 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                         label: "23",
                         icon: Presentation,
                         href: "/admin/class",
-                        
+
                     },
                     {
                         title: "Attendance",
                         label: "",
-                        icon: UserRoundCheck ,
+                        icon: UserRoundCheck,
                         href: "/admin/attendance",
                     },
                 ]}
@@ -110,13 +88,15 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                         icon: AlertCircle,
                     },
                     {
-                        title: "chat",
+                        title: "Chat",
                         label: "128",
                         icon: MessagesSquare,
+                        href: "/admin/chat",
                     },
                 ]}
             />
             <Separator />
+            <div className="flex-1"></div>
             <Nav
                 segment={pathname}
                 isCollapsed={isCollapsed ? true : false}
@@ -133,6 +113,6 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                     },
                 ]}
             />
-        </ >
+        </div >
     )
 }

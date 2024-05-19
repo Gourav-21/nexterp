@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,41 +9,34 @@ import { createClient } from "@/utils/supabase/client"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 import { useRouter } from "next/navigation"
+import { createUser } from "@/app/actions/signup"
+import { useToast } from "@/components/ui/use-toast"
+import SignupButton from "../components/SignupButton"
+import { ToastProps } from "@/components/ui/toast"
 
 export default function Index() {
   const [login, setLogin] = useState(true)
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [value, setValue] = useState("")
-  const [isLoading, setIsLoading] = useState(false);
+  const [code, setCode] = useState("")
   const [role, setRole] = useState("student");
 
   const router = useRouter()
+  const { toast } = useToast()
 
-  async function signIn(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setIsLoading(true);
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp(
-      {
-        email: email,
-        password: password,
-        options: {
-          data: {
-            role: role
-          }
-        }
-      }
-    )
-    if (error) {
-      alert(error)
-      setIsLoading(false);
-    } else {
-      console.log(data)
-      router.push(`/${role}`)
-      setIsLoading(false);
-    }
+  const signup = createUser.bind(null, {
+    email,
+    password,
+    role,
+    code
+  })
+
+  async function signUp() {
+    const res = await signup()
+    toast(res as ToastProps);
   }
+
 
   async function Login(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true);
@@ -60,7 +52,7 @@ export default function Index() {
     } else {
       console.log(data)
       router.push(`/${data.user?.user_metadata.role}`)
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }
 
@@ -96,7 +88,7 @@ export default function Index() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Loading..." : "Login"}
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button type="button" variant="outline" className="w-full">
                   Login with Google
                 </Button>
                 <Link
@@ -129,14 +121,14 @@ export default function Index() {
                 <TabsTrigger value="student">Student</TabsTrigger>
               </TabsList>
             </Tabs>
-            <form onSubmit={signIn}>
+            <form action={signUp}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="school code">School code</Label>
                   </div>
                   <div className="flex items-center ">
-                    <OTP value={value} setValue={setValue} />
+                    <OTP value={code} setValue={setCode} />
                   </div>
                 </div>
                 <div className="grid gap-2">
@@ -153,12 +145,10 @@ export default function Index() {
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
-                  <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" required minLength={6}/>
+                  <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" required minLength={6} />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Loading..." : "Sign up"}
-                </Button>
-                <Button variant="outline" className="w-full">
+                <SignupButton />
+                <Button type="button" variant="outline" className="w-full">
                   Sign up with Google
                 </Button>
               </div>
