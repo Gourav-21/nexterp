@@ -1,9 +1,12 @@
+"use client"
 
-export default function Page() {
-    return (
-        <>
-            this is the page
-        </>
-    )
+export default function Index() {
+ 
 
+  return (
+    <div>
+      <h1>Hello World</h1>
+    </div>
+  )
 }
+
