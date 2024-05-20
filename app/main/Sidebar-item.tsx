@@ -37,38 +37,38 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                         title: "dashboard",
                         label: "",
                         icon: LayoutDashboard,
-                        href: "/admin",
+                        href: "/main",
                     },
                     {
-                        title: "Students",
+                        title: "Schools",
                         label: "972",
                         icon: GraduationCap,
-                        href: "/admin/students",
+                        href: "/main/schools",
                     },
                     {
                         title: "Teachers",
                         label: "972",
                         icon: Users2,
-                        href: "/admin/teachers",
+                        href: "/main/teachers",
                     },
                     {
                         title: "Subjects",
                         label: "",
                         icon: BookMarked,
-                        href: "/admin/subjects",
+                        href: "/main/subjects",
                     },
                     {
                         title: "Class",
                         label: "23",
                         icon: Presentation,
-                        href: "/admin/class",
+                        href: "/main/class",
 
                     },
                     {
                         title: "Attendance",
                         label: "",
                         icon: UserRoundCheck,
-                        href: "/admin/attendance",
+                        href: "/main/attendance",
                     },
                 ]}
             />
@@ -91,7 +91,7 @@ export default function SidebarItem({ isCollapsed }: MailProps) {
                         title: "Chat",
                         label: "128",
                         icon: MessagesSquare,
-                        href: "/admin/chat",
+                        href: "/main/chat",
                     },
                 ]}
             />
