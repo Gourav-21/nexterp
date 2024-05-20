@@ -6,8 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { Input } from "@/components/ui/input"
 import { DataTablePagination } from "../../../components/ui/DataTablePagination"
 import { DataTableViewOptions } from "../../../components/ui/DataTableViewOptions"
-import { PlusCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import AddSchool from "./AddSchool"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -45,31 +44,24 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  console.log(table.getFilteredSelectedRowModel().rows)
-
   return (
     <div>
       <div className="flex items-center py-2">
+
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter schools..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
+
         <div className="ml-auto flex items-center gap-2">
-
-          <Button size="sm" className="h-8 gap-1 ml-auto">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add school
-            </span>
-          </Button>
-          
-          <DataTableViewOptions table={table} />
-
+          <AddSchool />
+          <DataTableViewOptions  table={table} />
         </div>
+
       </div>
       <div className="rounded-md border">
         <Table>

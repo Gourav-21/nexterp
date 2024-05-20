@@ -1,24 +1,19 @@
 "use client"
- 
+
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableColumnHeader } from "../../../components/ui/DataTableColumnHeader"
+import { Tables } from "@/types/supabase"
+import { createClient } from "@/utils/supabase/client"
+import { useSetRecoilState } from "recoil"
+import { SchoolDataState } from "@/store/main/SchoolData"
+import DeleteSchool from "./deleteSchool"
 
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
-   {
+export const columns: ColumnDef<Tables<'school'>>[] = [
+  {
     id: "select",
     header: ({ table }) => (
       <Checkbox
@@ -39,33 +34,28 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "id",
+    header: "id",
   },
   {
-    accessorKey: "email",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "school_code",
+    header: () => <div className="text-right">School Code</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+      const schoolCode: string = (row.getValue("school_code"))
+      return <div className="text-right font-medium">{schoolCode}</div>
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const school = row.original
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -77,7 +67,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(toString(school.school_code))}
             >
               Copy payment ID
             </DropdownMenuItem>
@@ -86,6 +76,17 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      )
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const school = row.original
+      return (
+        <>
+          <DeleteSchool id={school.id} />
+        </>
       )
     },
   },
