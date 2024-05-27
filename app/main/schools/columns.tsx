@@ -1,16 +1,12 @@
-"use client"
-
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableColumnHeader } from "../../../components/ui/DataTableColumnHeader"
 import { Tables } from "@/types/supabase"
-import { createClient } from "@/utils/supabase/client"
-import { useSetRecoilState } from "recoil"
-import { SchoolDataState } from "@/store/main/SchoolData"
-import DeleteSchool from "./deleteSchool"
+import DeleteSchool from "./DeleteSchool"
+import EditAdmin from "./AddAdmin"
 
 export const columns: ColumnDef<Tables<'school'>>[] = [
   {
@@ -67,9 +63,9 @@ export const columns: ColumnDef<Tables<'school'>>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(toString(school.school_code))}
+              onClick={() => navigator.clipboard.writeText(school.school_code)}
             >
-              Copy payment ID
+              Copy School Code
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
@@ -83,11 +79,14 @@ export const columns: ColumnDef<Tables<'school'>>[] = [
     id: "actions",
     cell: ({ row }) => {
       const school = row.original
-      return (
-        <>
-          <DeleteSchool id={school.id} />
-        </>
-      )
+      return <DeleteSchool id={school.id} />
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const school = row.original
+      return <EditAdmin id={school.id} code={school.school_code} />
     },
   },
 ]

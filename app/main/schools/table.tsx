@@ -18,7 +18,6 @@ export default function Table({ schools }: { schools: Tables<'school'>[] }) {
   return (
     <div>
       <DataTable data={data} columns={columns} />
-
     </div>
   )
 }

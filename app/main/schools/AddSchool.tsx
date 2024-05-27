@@ -49,7 +49,6 @@ export default function AddSchool() {
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen} >
-
         <SheetTrigger asChild>
           <Button size="sm" className="h-8 gap-1 ml-auto">
             <PlusCircle className="h-3.5 w-3.5" />

@@ -56,7 +56,7 @@ export default function Sidebar({ children, defaultCollapsed = false }: { childr
           <SidebarItem isCollapsed={isCollapsed} />
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={80} >
+        <ResizablePanel defaultSize={85} >
           <ScrollArea className="h-screen w-full">
             <div className="h-full w-full">{children}</div>
           </ScrollArea>
